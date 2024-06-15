@@ -7,9 +7,9 @@
 /**
  * 
  */
-class MENTALHEALTHGAME2024_API PDollarGestureRecognizer
+class MENTALHEALTHGAME2024_API QPoint
 {
 public:
-	PDollarGestureRecognizer();
-	~PDollarGestureRecognizer();
+	QPoint();
+	~QPoint();
 };

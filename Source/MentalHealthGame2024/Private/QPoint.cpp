@@ -1,12 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "QPoint.h"
 
-QPoint::QPoint()
+UQPoint::UQPoint()
+    : X(0.0f), Y(0.0f), StrokeID(0), IntX(0), IntY(0)
 {
 }
 
-QPoint::~QPoint()
+void UQPoint::Initialize(float InX, float InY, int32 InStrokeID)
 {
+    X = InX;
+    Y = InY;
+    StrokeID = InStrokeID;
+    IntX = 0;
+    IntY = 0;
 }

@@ -7,9 +7,9 @@
 /**
  * 
  */
-class MENTALHEALTHGAME2024_API QPointTemplate
+class MENTALHEALTHGAME2024_API QPointCloudRecognizer
 {
 public:
-	QPointTemplate();
-	~QPointTemplate();
+	QPointCloudRecognizer();
+	~QPointCloudRecognizer();
 };

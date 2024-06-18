@@ -17,4 +17,21 @@ struct MENTALHEALTHGAME2024_API FNestedArray
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NestedArray")
     TArray<int32> InnerArray;
+
+    FNestedArray() {}
+
+    void SetSize(int32 Size)
+    {
+        InnerArray.SetNum(Size);
+    }
+
+    int32& operator[](int32 Index)
+    {
+        return InnerArray[Index];
+    }
+
+    const int32& operator[](int32 Index) const
+    {
+        return InnerArray[Index];
+    }
 };

@@ -17,7 +17,7 @@ class MENTALHEALTHGAME2024_API UQPoint : public UBlueprintFunctionLibrary
 };
 */
 USTRUCT(BlueprintType)
-struct FQPoint
+struct MENTALHEALTHGAME2024_API FQPoint
 {
     GENERATED_BODY()
 

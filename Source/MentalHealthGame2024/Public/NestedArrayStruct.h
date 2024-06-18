@@ -10,7 +10,7 @@
  * 
  */
 USTRUCT(BlueprintType)
-struct FNestedArray
+struct MENTALHEALTHGAME2024_API FNestedArray
 {
     GENERATED_BODY()
 

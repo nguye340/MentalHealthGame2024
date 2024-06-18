@@ -13,7 +13,7 @@
  */
 
 UCLASS(BlueprintType)
-class UQGesture : public UObject
+class MENTALHEALTHGAME2024_API UQGesture : public UObject
 {
     GENERATED_BODY()
 

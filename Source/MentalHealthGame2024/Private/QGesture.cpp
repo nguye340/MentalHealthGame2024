@@ -1,6 +1,6 @@
 #include "QGesture.h"
 #include "Math/UnrealMathUtility.h"
-/*
+
 UQGesture::UQGesture()
 {
 }
@@ -174,4 +174,3 @@ void UQGesture::ConstructLUT()
         }
     }
 }
-*/

@@ -9,9 +9,12 @@
 /**
  * 
  */
-UCLASS()
-class MENTALHEALTHGAME2024_API UNestedArrayStruct : public UBlueprintFunctionLibrary
+USTRUCT(BlueprintType)
+struct FNestedArray
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NestedArray")
+    TArray<int32> InnerArray;
 };

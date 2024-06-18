@@ -36,11 +36,14 @@ public:
 
     void Normalize(bool bComputeLUT = true);
 
+    UFUNCTION(BlueprintCallable, Category = "QGesture")
+    static int32 GetLUTScaleFactor();
+
 private:
-    const int32 SAMPLING_RESOLUTION = 64;
-    const int32 MAX_INT_COORDINATES = 1024;
-    const int32 LUT_SIZE = 64;
-    const int32 LUT_SCALE_FACTOR = MAX_INT_COORDINATES / LUT_SIZE;
+    static const int32 SAMPLING_RESOLUTION = 64;
+    static const int32 MAX_INT_COORDINATES = 1024;
+    static const int32 LUT_SIZE = 64;
+    static const int32 LUT_SCALE_FACTOR = MAX_INT_COORDINATES / LUT_SIZE;
 
     TArray<FQPoint> Scale(const TArray<FQPoint>& InPoints);
     TArray<FQPoint> TranslateTo(const TArray<FQPoint>& InPoints, const FQPoint& P);

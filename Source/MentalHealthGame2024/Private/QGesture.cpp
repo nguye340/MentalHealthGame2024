@@ -147,12 +147,17 @@ void UQGesture::TransformCoordinatesToIntegers()
 
 void UQGesture::ConstructLUT()
 {
+    // Resize LUT to the appropriate size
     LUT.SetNum(LUT_SIZE);
 
     for (int32 i = 0; i < LUT_SIZE; ++i)
     {
-        LUT[i].SetNum(LUT_SIZE);
+        // Resize each inner array
+        LUT[i].SetSize(LUT_SIZE);
+    }
 
+    for (int32 i = 0; i < LUT_SIZE; ++i)
+    {
         for (int32 j = 0; j < LUT_SIZE; ++j)
         {
             int32 MinDistance = TNumericLimits<int32>::Max();
@@ -170,7 +175,14 @@ void UQGesture::ConstructLUT()
                     IndexMin = t;
                 }
             }
+
+            // Set the value in the inner array
             LUT[i][j] = IndexMin;
         }
     }
+}
+
+int32 UQGesture::GetLUTScaleFactor()
+{
+    return LUT_SCALE_FACTOR;
 }

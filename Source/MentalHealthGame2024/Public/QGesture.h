@@ -40,7 +40,7 @@ public:
     static int32 GetLUTScaleFactor();
 
     UFUNCTION(BlueprintCallable, Category = "QPoint")
-    static const TArray<FQPoint> Convert(const TArray<FVector2D>& Vector2DPoints);
+    TArray<FQPoint> Convert(const TArray<FVector2D>& Vector2DPoints);
 
 private:
     static const int32 SAMPLING_RESOLUTION = 64;

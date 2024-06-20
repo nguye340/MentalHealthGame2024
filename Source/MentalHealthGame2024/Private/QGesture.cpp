@@ -12,7 +12,7 @@ UQGesture::UQGesture(const TArray<FQPoint>& InPoints, const FString& GestureName
     Normalize();
 }
 
-static const TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints)
+TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints)
 {
     TArray<FQPoint> NewPoints;
 

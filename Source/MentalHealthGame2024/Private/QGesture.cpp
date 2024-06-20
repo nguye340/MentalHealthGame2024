@@ -19,7 +19,7 @@ TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints)
     for (int32 Index = 0; Index < Vector2DPoints.Num(); ++Index)
     {
         const FVector2D& Point = Vector2DPoints[Index];
-        NewPoints.Add(FQPoint(Point.X, Point.Y, Index);
+        NewPoints.Add(FQPoint(Point.X, Point.Y, Index));
     }
 
     return NewPoints;

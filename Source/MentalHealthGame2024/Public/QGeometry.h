@@ -11,7 +11,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class MENTALHEALTHGAME2024_API UQGeometry : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()

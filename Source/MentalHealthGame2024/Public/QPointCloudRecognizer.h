@@ -12,7 +12,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class MENTALHEALTHGAME2024_API UQPointCloudRecognizer : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()

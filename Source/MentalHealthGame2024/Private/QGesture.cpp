@@ -12,6 +12,19 @@ UQGesture::UQGesture(const TArray<FQPoint>& InPoints, const FString& GestureName
     Normalize();
 }
 
+static const TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints)
+{
+    TArray<FQPoint> NewPoints;
+
+    for (int32 Index = 0; Index < Vector2DPoints.Num(); ++Index)
+    {
+        const FVector2D& Point = Vector2DPoints[Index];
+        NewPoints.Add(FQPoint(Point.X, Point.Y, Index);
+    }
+
+    return NewPoints;
+}
+
 void UQGesture::Normalize(bool bComputeLUT)
 {
     Points = Resample(PointsRaw, SAMPLING_RESOLUTION);

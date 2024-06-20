@@ -39,6 +39,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "QGesture")
     static int32 GetLUTScaleFactor();
 
+    UFUNCTION(BlueprintCallable, Category = "QPoint")
+    static const TArray<FQPoint> Convert(const TArray<FVector2D>& Vector2DPoints);
+
 private:
     static const int32 SAMPLING_RESOLUTION = 64;
     static const int32 MAX_INT_COORDINATES = 1024;

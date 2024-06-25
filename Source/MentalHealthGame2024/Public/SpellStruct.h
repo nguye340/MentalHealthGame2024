@@ -33,6 +33,9 @@ public:
     float Cost;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float Cooldown;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString Desc;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)

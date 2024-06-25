@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "UObject/NoExportTypes.h"
+#include "SpellStruct.h"
 #include "SpellManager.generated.h"
 
 /**
@@ -15,13 +17,22 @@ class MENTALHEALTHGAME2024_API USpellManager : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 	
 public:
-   /*
-   UFUNCTION(BlueprintCallable, Category = "Spell Management")
-    static TArray<FSpellStruct> GetAllSpells();
-
-    UFUNCTION(BlueprintCallable, Category = "Spell Management")
-    static FSpellStruct GetSpellByName(FString SpellName);
-   */
+   
+    USpellManager();
+    ~USpellManager();
     
+    UFUNCTION(BlueprintCallable, Category = "Spells")
+    void LoadSpells();
+
+    UFUNCTION(BlueprintCallable, Category = "Spells")
+    void AddPlayerGestureToFirstRow(const TArray<FVector2D>& PlayerGesture);
+
+//private:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
+    UDataTable* SpellDataTable;
+
+    TMap<FName, FUSpellStruct> Spells;
+
+    //void LoadSpellData();
 
 };

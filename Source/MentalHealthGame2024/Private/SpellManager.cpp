@@ -13,7 +13,7 @@ USpellManager::USpellManager()
     if (SpellDataTableObject.Succeeded())
     {
         SpellDataTable = SpellDataTableObject.Object;
-        //LoadSpells();
+        LoadSpells();
     }
 }
 

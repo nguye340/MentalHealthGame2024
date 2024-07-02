@@ -12,7 +12,7 @@
  * 
  */
 UCLASS(Blueprintable)
-class MENTALHEALTHGAME2024_API USpellManager : public UBlueprintFunctionLibrary
+class MENTALHEALTHGAME2024_API USpellManager : public UObject
 {
 	GENERATED_BODY()
 	

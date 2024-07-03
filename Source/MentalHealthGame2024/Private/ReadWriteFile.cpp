@@ -5,6 +5,7 @@
 
 FString UReadWriteFile::ReadStringFromFile(FString FilePath, bool& bOutSuccess, FString& OutInfoMessage)
 {
+	//FilePath = (TEXT("../JSON/test.txt"));
 	// Check if the file exists
 	if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*FilePath))
 	{
@@ -31,6 +32,8 @@ FString UReadWriteFile::ReadStringFromFile(FString FilePath, bool& bOutSuccess, 
 
 void UReadWriteFile::WriteStringToFile(FString FilePath, FString String, bool& bOutSuccess, FString& OutInfoMessage)
 {
+	//FilePath = (TEXT("../JSON/test.txt"));
+
 	// Try to write the string into the file
 	if (!FFileHelper::SaveStringToFile(String, *FilePath))
 	{
@@ -41,4 +44,5 @@ void UReadWriteFile::WriteStringToFile(FString FilePath, FString String, bool& b
 
 	bOutSuccess = true;
 	OutInfoMessage = FString::Printf(TEXT("Write String To File Succeeded - '%s'"), *FilePath);
+
 }

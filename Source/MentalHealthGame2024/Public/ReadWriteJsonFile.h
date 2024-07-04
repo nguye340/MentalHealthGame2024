@@ -15,7 +15,7 @@ UCLASS()
 class MENTALHEALTHGAME2024_API UReadWriteJsonFile : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
-	
+
 public:
 	/**
 	* Open a json file, read its content and dump it into a structure
@@ -25,10 +25,10 @@ public:
 	* @param OutInfoMessage		More information aout the action's result
 	*
 	* @return The structure content of your json file
-*/	
+*/
 	UFUNCTION(BlueprintCallable, Category = "Read Write Json")
 	static FUSpellStruct ReadStructFromJsonFile(FString JsonFilePath, bool& bOutSuccess, FString& OutInfoMessage);
-
+	
 	/**
 	* Open a json file, read its content and dump it into a structure
 	*
@@ -41,6 +41,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Read Write Json")
 	static void WriteStructToJsonFile(FString JsonFilePath, FUSpellStruct Struct, bool& bOutSuccess, FString& OutInfoMessage);
 
+public:
 	/*
 	* Open a json file, read its content and convert it to a JsonObject
 	* 
@@ -49,9 +50,9 @@ public:
 	* @param OutInfoMessage		More information aout the action's result
 	* 
 	* @return The JsonObject content of your json file
-	*/
+	*/	
 	static TSharedPtr<FJsonObject> ReadJson(FString JsonFilePath, bool& bOutSuccess, FString& OutInfoMessage);
-	
+
 	/*
 	* Open a json file, read its content and convert it to a JsonObject
 	*
@@ -64,3 +65,4 @@ public:
 	static void WriteJson(FString JsonFilePath, TSharedPtr<FJsonObject> JsonObject, bool& bOutSuccess, FString& OutInfoMessage);
 
 };
+

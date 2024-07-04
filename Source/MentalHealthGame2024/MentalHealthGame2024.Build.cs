@@ -8,7 +8,19 @@ public class MentalHealthGame2024 : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(
+			new string[] 
+			{	
+				// Default Modules
+				"Core", 
+				"CoreUObject", 
+				"Engine", 
+				"InputCore",
+
+				// New Modules
+				"Json", // Add the Json module
+                "JsonUtilities" // Add the JsonUtilities module
+			});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

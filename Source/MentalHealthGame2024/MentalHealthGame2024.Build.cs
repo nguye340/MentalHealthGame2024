@@ -19,10 +19,18 @@ public class MentalHealthGame2024 : ModuleRules
 
 				// New Modules
 				"Json", // Add the Json module
-                "JsonUtilities" // Add the JsonUtilities module
+                "JsonUtilities", // Add the JsonUtilities module
+				/*
+				"AssetTools",
+				"UnrealEd"
+				*/
 			});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PrivateDependencyModuleNames.AddRange(new string[] {
+            // New Modules - Editor Only   
+				"UnrealEd",
+			   "AssetTools"
+        });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

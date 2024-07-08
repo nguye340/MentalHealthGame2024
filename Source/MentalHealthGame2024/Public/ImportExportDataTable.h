@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ImportExportDataTable.generated.h"
 
+class UDataTable;
 /**
  * 
  */
@@ -28,10 +29,10 @@ public:
 	* 
 	* @return The imported data table
 	* 
-
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Import Export Data Table")
 	static UDataTable* ImportDataTableFromJsonOrCsv(FString SourcePath, FString DestinationPath, UScriptStruct* StructClass, bool& bOutSuccess, FString& OutInfoMessage);
-	*/
+
 	/**
 	* Editor Only - Will not work in packaged build
 	*
@@ -41,8 +42,8 @@ public:
 	* @param DataTable			The datatable to export
 	* @param bOutSuccess		If the action was a success or not
 	* @param OutInfoMessage		More information about the action's result
-
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Import Export Data Table")
 	static void ExportDataTableToJsonOrCsv(FString FilePath, UDataTable* DataTable, bool& bOutSuccess, FString& OutInfoMessage);
-	*/
+
 };

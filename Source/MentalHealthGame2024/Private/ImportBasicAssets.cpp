@@ -2,6 +2,7 @@
 
 
 #include "ImportBasicAssets.h"
+/*
 #include "AssetImportTask.h" //UnrealEd (Editor Only)
 #include "AssetToolsModule.h" // AssetTools (Editor Only)
 
@@ -102,3 +103,4 @@ UObject* UImportBasicAssets::ImportAsset(FString SourcePath, FString Destination
 	OutInfoMessage = FString::Printf(TEXT("Import Asset Succeeded - '%s'"), *DestinationPath);
 	return RetAsset;
 }
+*/

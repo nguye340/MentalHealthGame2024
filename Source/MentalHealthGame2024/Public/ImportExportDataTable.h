@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Engine/DataTable.h"
 #include "ImportExportDataTable.generated.h"
 
 class UDataTable;
@@ -29,10 +30,10 @@ public:
 	* 
 	* @return The imported data table
 	* 
-	*/
+
 	UFUNCTION(BlueprintCallable, Category = "Import Export Data Table")
 	static UDataTable* ImportDataTableFromJsonOrCsv(FString SourcePath, FString DestinationPath, UScriptStruct* StructClass, bool& bOutSuccess, FString& OutInfoMessage);
-
+	*/
 	/**
 	* Editor Only - Will not work in packaged build
 	*

@@ -4,6 +4,7 @@
 #include "ImportExportDataTable.h"
 #include "ReadWriteFile.h"
 #include "ReadWriteJsonFile.h"
+/*
 #include "ImportBasicAssets.h"
 
 #include "Factories/ReimportDataTableFactory.h" // UnrealEd (Editor Only)
@@ -34,6 +35,7 @@ UDataTable* UImportExportDataTable::ImportDataTableFromJsonOrCsv(FString SourceP
 	OutInfoMessage = FString::Printf(TEXT("Import Data Table Succeeded - '%s'"), *DestinationPath);
 	return Cast<UDataTable>(ImportedAsset);
 }
+*/
 
 void UImportExportDataTable::ExportDataTableToJsonOrCsv(FString FilePath, UDataTable* DataTable, bool& bOutSuccess, FString& OutInfoMessage) 
 {

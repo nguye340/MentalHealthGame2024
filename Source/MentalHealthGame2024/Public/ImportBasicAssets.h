@@ -8,17 +8,17 @@
 
 /**
  * 
- */
+
 class UAssetImportTask;
 class UFactory;
-
+ */
 UCLASS()
 class MENTALHEALTHGAME2024_API UImportBasicAssets : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
-
-public:
 	/**
+public:
+
 	* Editor Only - Will not work in packaged build.
 	* 
 	* Create an import task that you can then process to import any kind of assets
@@ -31,10 +31,10 @@ public:
 	* 
 	* @return The import task
 	* 
-	*/
+	
 	UFUNCTION(BlueprintCallable, Category = "Import Basic Assets")
 	static UAssetImportTask* CreateImportTask(FString SourcePath, FString DestinationPath, UFactory* ExtraFactory, UObject* ExtraOptions, bool& bOutSuccess, FString& OutInfoMessage);
-
+*/
 	/**
 	* Editor Only - Will not work in packaged build.
 	*
@@ -46,10 +46,10 @@ public:
 	*
 	* @return The imported task
 	*
-	*/
+	
 	UFUNCTION(BlueprintCallable, Category = "Import Basic Assets")
 	static UObject* ProcessImportTask(UAssetImportTask* ImportTask, bool& bOutSuccess, FString& OutInfoMessage);
-
+*/
 	/**
 	* Editor Only - Will not work in packaged build.
 	*
@@ -61,8 +61,8 @@ public:
 	*
 	* @return The imported task
 	*
-	*/
+	
 	UFUNCTION(BlueprintCallable, Category = "Import Basic Assets")
 	static UObject* ImportAsset(FString SourcePath, FString DestinationPath, bool& bOutSuccess, FString& OutInfoMessage);
-	
+	*/
 };

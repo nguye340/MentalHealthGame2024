@@ -40,5 +40,9 @@ public:
     FQPoint() : X(0), Y(0), StrokeID(0), intX(0), intY(0) {}
 
     FQPoint(float InX, float InY, int32 InStrokeID)
-        : X(InX), Y(InY), StrokeID(InStrokeID), intX(0), intY(0) {}
+        : X(InX), Y(InY), StrokeID(InStrokeID)
+    {
+        intX = FMath::RoundToInt(InX);
+        intY = FMath::RoundToInt(InY);
+    }
 };

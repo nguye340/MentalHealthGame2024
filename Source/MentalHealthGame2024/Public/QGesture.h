@@ -32,7 +32,7 @@ public:
 
     UQGesture();
 
-    UQGesture(const TArray<FQPoint>& InPoints, const FString& GestureName = "");
+    void Initialize(const TArray<FQPoint>& InPoints, const FString& GestureName = "");
 
     void Normalize(bool bComputeLUT = true);
 
@@ -40,7 +40,10 @@ public:
     static int32 GetLUTScaleFactor();
 
     UFUNCTION(BlueprintCallable, Category = "QPoint")
-    TArray<FQPoint> Convert(const TArray<FVector2D>& Vector2DPoints);
+    TArray<FQPoint> Convert(const TArray<FVector2D>& Vector2DPoints, bool bIsPlayerRawInput);
+
+    // Function to get points
+    const TArray<FQPoint>& GetPoints() const { return Points; }
 
 private:
     static const int32 SAMPLING_RESOLUTION = 64;

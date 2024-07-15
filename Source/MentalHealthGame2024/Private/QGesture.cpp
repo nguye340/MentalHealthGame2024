@@ -1,25 +1,41 @@
 #include "QGesture.h"
 #include "Math/UnrealMathUtility.h"
+#include "Misc/DateTime.h"
 
 UQGesture::UQGesture()
 {
 }
 
-UQGesture::UQGesture(const TArray<FQPoint>& InPoints, const FString& GestureName)
-    : Name(GestureName)
+void UQGesture::Initialize(const TArray<FQPoint>& InPoints, const FString& GestureName)
 {
     PointsRaw = InPoints;
     Normalize();
 }
 
-TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints)
+TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints, bool bIsPlayerRawInput)
 {
     TArray<FQPoint> NewPoints;
+    int32 StrokeID = 0;
 
+    if (!bIsPlayerRawInput)
+    {
+        // Generate a random non-zero StrokeID using current time and a random seed
+        do
+        {
+            int64 CurrentTime = FDateTime::Now().GetTicks();
+            int32 RandomSeed = FMath::Rand();
+            StrokeID = CurrentTime ^ RandomSeed;
+        } while (StrokeID == 0);
+    }
+
+    //Generate random hash id everytime a new gesture i.e new array of points is created
+    /*Insert random hash index*/
     for (int32 Index = 0; Index < Vector2DPoints.Num(); ++Index)
     {
         const FVector2D& Point = Vector2DPoints[Index];
-        NewPoints.Add(FQPoint(Point.X, Point.Y, Index));
+        
+        // Just in case - If player input, strokeID = 0, if not player input - strokeID is randomized/unique (for each template gesture)
+        NewPoints.Add(FQPoint(Point.X, Point.Y, bIsPlayerRawInput ? 0 : StrokeID));
     }
 
     return NewPoints;
@@ -28,8 +44,20 @@ TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints)
 void UQGesture::Normalize(bool bComputeLUT)
 {
     Points = Resample(PointsRaw, SAMPLING_RESOLUTION);
-    Points = Scale(Points);
-    Points = TranslateTo(Points, Centroid(Points));
+     for (int32 i = 0; i < Points.Num(); i++)
+    {
+        const FQPoint& Point = Points[i];
+        if (Point.intX < 0 || Point.intY < 0)
+        {
+            UE_LOG(LogTemp, Error, TEXT("QGESTURE: Invalid point found at index %d for gesture - intX: %d, intY: %d, Point.StrokeID: %d, Points.Num(): %d"), i, Point.intX, Point.intY, Point.StrokeID, Points.Num());
+        }
+        else
+        {
+            UE_LOG(LogTemp, Log, TEXT("QGESTURE: Point at index %d for gesture is valid - intX: %d, intY: %d, Points.Num(): %d"), i, Point.intX, Point.intY, Point.StrokeID, Points.Num());
+        }
+    }
+    //Points = Scale(Points);
+    //Points = TranslateTo(Points, Centroid(Points));
 
     if (bComputeLUT)
     {
@@ -92,31 +120,52 @@ FQPoint UQGesture::Centroid(const TArray<FQPoint>& InPoints)
 
 TArray<FQPoint> UQGesture::Resample(const TArray<FQPoint>& InPoints, int32 N)
 {
+    // Check if the input points array is empty
+    if (InPoints.Num() == 0)
+    {
+        UE_LOG(LogTemp, Error, TEXT("QGESTURE: Resample: InPoints is empty"));
+        return TArray<FQPoint>();
+    }
+    else UE_LOG(LogTemp, Warning, TEXT("QGESTURE: InPoints: %d, N: %d"), InPoints.Num(), N);
+
+    // Initialize the new points array and add the first point from InPoints
     TArray<FQPoint> NewPoints;
     NewPoints.Add(InPoints[0]);
     int32 NumPoints = 1;
 
     float I = PathLength(InPoints) / (N - 1);
+    UE_LOG(LogTemp, Error, TEXT("QGESTURE: PathLength: %f"), I);
     float D = 0;
 
-    for (int32 i = 1; i < InPoints.Num(); ++i)
+    for (int32 i = 1; i < InPoints.Num(); i++)
     {
+        UE_LOG(LogTemp, Error, TEXT("InPoints[i].StrokeID: %d, InPoints[i - 1].StrokeID: %d"), InPoints[i].StrokeID, InPoints[i - 1].StrokeID);
+        
+        // Check if the stroke ID of the current point matches the previous point
         if (InPoints[i].StrokeID == InPoints[i - 1].StrokeID)
         {
             float d = FMath::Sqrt(FMath::Pow(InPoints[i].X - InPoints[i - 1].X, 2) + FMath::Pow(InPoints[i].Y - InPoints[i - 1].Y, 2));
+            UE_LOG(LogTemp, Error, TEXT("QGESTURE: distance between 2 consecutive pointRes: %f"), d);
+
             if (D + d >= I)
             {
                 FQPoint FirstPoint = InPoints[i - 1];
                 while (D + d >= I)
                 {
+                    // add interpolated point
                     float t = FMath::Clamp((I - D) / d, 0.0f, 1.0f);
+                    
                     if (FMath::IsNaN(t)) t = 0.5f;
+                    
                     NewPoints.Add(FQPoint(
                         (1.0f - t) * FirstPoint.X + t * InPoints[i].X,
                         (1.0f - t) * FirstPoint.Y + t * InPoints[i].Y,
                         InPoints[i].StrokeID
                     ));
+                    
+                    UE_LOG(LogTemp, Error, TEXT("Resample: Added interpolated point at index %d - X: %f, Y: %f"), NewPoints.Num() - 1, NewPoints.Last().X, NewPoints.Last().Y);
 
+                    // update partial length
                     d = D + d - I;
                     D = 0;
                     FirstPoint = NewPoints.Last();
@@ -128,8 +177,13 @@ TArray<FQPoint> UQGesture::Resample(const TArray<FQPoint>& InPoints, int32 N)
         }
     }
 
+    // Add the last point if the number of points is one less than N
+    // sometimes we fall a rounding-error short of adding the last point, so add it if so
     if (NumPoints == N - 1)
-        NewPoints.Add(InPoints.Last());
+        NewPoints.Add(FQPoint(InPoints[InPoints.Num() - 1].X, InPoints[InPoints.Num() - 1].Y, InPoints[InPoints.Num() - 1].StrokeID));
+        //NewPoints.Add(InPoints.Last());
+
+    UE_LOG(LogTemp, Error, TEXT("Resample: Final NewPoints.Num(): %d"), NewPoints.Num());
 
     return NewPoints;
 }

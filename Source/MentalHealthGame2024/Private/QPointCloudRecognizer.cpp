@@ -137,13 +137,16 @@ FString UQPointCloudRecognizer::Classify(const UQGesture* Candidate, const TArra
     for (const UQGesture* Template : TemplateSet)
     {
         float Distance = GreedyCloudMatch(Candidate, Template, MinDistance);
+        UE_LOG(LogTemp, Warning, TEXT("QPointCloudRecognizer - DISTANCE %f..."), Distance);
         if (Distance < MinDistance)
         {
             MinDistance = Distance;
             GestureClass = Template->Name;
+            UE_LOG(LogTemp, Warning, TEXT("QPointCloudRecognizer - Matching with template %s..."), *GestureClass);
+
         }
     }
-    return GestureClass;
+    return *GestureClass;
 }
 
 float UQPointCloudRecognizer::GreedyCloudMatch(const UQGesture* Gesture1, const UQGesture* Gesture2, float MinSoFar)
@@ -265,7 +268,7 @@ float UQPointCloudRecognizer::CloudDistance(const TArray<FQPoint>& Points1, cons
             return Sum;
         }
         UE_LOG(LogTemp, Error, TEXT("NumPoints: %d---------------------------------------------"),NumPoints);
-        /*i = (i + 1) % NumPoints;*/ // advance to the next point in the 1st cloud
+        i = (i + 1) % NumPoints; // advance to the next point in the 1st cloud
         IndexNotMatched++;
     } while (i != StartIndex);
 

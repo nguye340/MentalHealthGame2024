@@ -10,6 +10,7 @@ void UQGesture::Initialize(const TArray<FQPoint>& InPoints, const FString& Gestu
 {
     PointsRaw = InPoints;
     Normalize();
+    Name = GestureName;
 }
 
 TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints, bool bIsPlayerRawInput)
@@ -43,9 +44,9 @@ TArray<FQPoint> UQGesture::Convert(const TArray<FVector2D>& Vector2DPoints, bool
 
 void UQGesture::Normalize(bool bComputeLUT)
 {
-    Points = Resample(PointsRaw, SAMPLING_RESOLUTION);
+     Points = Resample(PointsRaw, SAMPLING_RESOLUTION);
      for (int32 i = 0; i < Points.Num(); i++)
-    {
+     {
         const FQPoint& Point = Points[i];
         if (Point.intX < 0 || Point.intY < 0)
         {
@@ -53,11 +54,11 @@ void UQGesture::Normalize(bool bComputeLUT)
         }
         else
         {
-            UE_LOG(LogTemp, Log, TEXT("QGESTURE: Point at index %d for gesture is valid - intX: %d, intY: %d, Points.Num(): %d"), i, Point.intX, Point.intY, Point.StrokeID, Points.Num());
+            UE_LOG(LogTemp, Log, TEXT("QGESTURE: Point at index %d for gesture is valid - intX: %d, intY: %d, Point.StrokeID: %d, Points.Num(): %d"), i, Point.intX, Point.intY, Point.StrokeID, Points.Num());
         }
     }
-    //Points = Scale(Points);
-    //Points = TranslateTo(Points, Centroid(Points));
+    Points = Scale(Points);
+    Points = TranslateTo(Points, Centroid(Points));
 
     if (bComputeLUT)
     {

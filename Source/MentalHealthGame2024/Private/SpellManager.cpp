@@ -10,29 +10,62 @@
 
 USpellManager::USpellManager()
 {
-    static ConstructorHelpers::FObjectFinder<UDataTable> SpellDataTableObject(TEXT("/Script/Engine.DataTable'/Game/SpellCastingMechanic/JSON/DT_Spells_Json.DT_Spells_Json'"));
+   static ConstructorHelpers::FObjectFinder<UDataTable> SpellDataTableObject(TEXT("/Script/Engine.DataTable'/Game/SpellCastingMechanic/JSON/DT_Spells_Json.DT_Spells_Json'"));
     if (SpellDataTableObject.Succeeded())
     {
         SpellDataTable = SpellDataTableObject.Object;
-        LoadSpellTemplates();
+        //LoadSpellTemplates();
     }
+   
+   // USpellManager* SpellManager = NewObject<USpellManager>();
+    //SpellManagerInstance = SpellManager;
 }
 
-void USpellManager::LoadSpellTemplates()
+FString USpellManager::LoadSpellTemplates(TMap<FString, FUSpellStruct> SpellTemplates)
 {
-    
-    if (SpellDataTable)
+    // Clear existing templates if any
+    //SpellManagerInstance->GestureTemplates.Empty(); 
+
+    // Convert each spell struct in the TMap to a UQGesture instance
+    for (const TPair<FString, FUSpellStruct>& SpellPair : SpellTemplates)
     {
-        TArray<FName> RowNames = SpellDataTable->GetRowNames();
-        for (const FName& Name : RowNames)
+        const FString& SpellName = SpellPair.Key;
+        const FUSpellStruct& SpellStruct = SpellPair.Value;
+
+        if (SpellStruct.GesturePoints.Num() == 0)
         {
-            FUSpellStruct* Spell = SpellDataTable->FindRow<FUSpellStruct>(Name, TEXT(""));
-            if (Spell)
-            {
-                SpellTemplates.Add(Name.ToString(), *Spell);
-            }
+            UE_LOG(LogTemp, Warning, TEXT("SpellRecognizer: Spell '%s' has no gesture points"), *SpellName);
+            continue;
+        }
+
+        if (!ArePointsValid(SpellStruct.GesturePoints))
+        {
+            UE_LOG(LogTemp, Warning, TEXT("SpellRecognizer: Spell '%s' has invalid gesture points"), *SpellName);
+            continue;
+        }
+
+        for (int32 i = 0; i < SpellStruct.GesturePoints.Num(); i++)
+        {
+            const FVector2D& Point = SpellStruct.GesturePoints[i];
+            //UE_LOG(LogTemp, Log, TEXT("SpellRecognizer: Spell '%s' GesturePoint[%d] - X: %f, Y: %f"), *SpellName, i, Point.X, Point.Y);
+        }
+
+        // Create new gesture from template set
+        UQGesture* NewGesture = CreateGesture(SpellStruct.GesturePoints, SpellName, false);
+        if (NewGesture)
+        {
+            GestureTemplates.Add(NewGesture);
+            // CheckGesturePoints(NewGesture, SpellName); // Check new gesture points here
         }
     }
+
+    if (GestureTemplates.Num() == 0)
+    {
+        UE_LOG(LogTemp, Error, TEXT("SpellRecognizer: No valid gestures found in SpellTemplates"));
+        return FString("No Match");
+    }
+
+    return FString("Templates loaded");
 }
 
 UQGesture* USpellManager::CreateGesture(const TArray<FVector2D>& Vector2DPoints, FString GestureName, bool isPlayerRawInput)
@@ -110,7 +143,7 @@ FString USpellManager::SpellRecognizer(const TArray<FVector2D>& PlayerRawInPoint
         if (NewGesture)
         {
             GestureTemplates.Add(NewGesture);
-           // CheckGesturePoints(NewGesture, SpellName); // Check new gesture points here
+            CheckGesturePoints(NewGesture, NewGesture->Name); // Check new gesture points here
         }
     }
 

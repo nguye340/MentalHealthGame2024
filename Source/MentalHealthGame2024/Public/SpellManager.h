@@ -34,17 +34,18 @@ public:
  //   ~USpellManager();
    
     UFUNCTION(BlueprintCallable, Category = "Spell Manager")
-	void LoadSpellTemplates();
-//
-//    UFUNCTION(BlueprintCallable, Category = "Spells")
-//    void AddPlayerGestureToFirstRow(const TArray<FVector2D>& PlayerGesture);
-//
-private:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
-    UDataTable* SpellDataTable;
+	FString LoadSpellTemplates(TMap<FString, FUSpellStruct> SpellTemplates);
 
-    TMap<FString, FUSpellStruct> SpellTemplates;
+private:
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
+	USpellManager* SpellManagerInstance;*/
+    
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
+    UDataTable* SpellDataTable;
+	
+	//TMap<FString, FUSpellStruct> SpellTemplates;
 //
 //    //void LoadSpellData();
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
+	TArray<UQGesture*> GestureTemplates;
 };

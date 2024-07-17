@@ -14,7 +14,7 @@
  * 
  */
 UCLASS(Blueprintable)
-class MENTALHEALTHGAME2024_API USpellManager : public UBlueprintFunctionLibrary
+class MENTALHEALTHGAME2024_API USpellManager : public UObject
 {
 	GENERATED_BODY()
 	
@@ -26,18 +26,26 @@ public:
 	static FString SpellRecognizer(const TArray<FVector2D>& PlayerRawInPoints, TMap<FString, FUSpellStruct> SpellTemplates);
 
 	UFUNCTION(BlueprintCallable, Category = "Spell Manager")
+	static FString SpellRecognizer_Optimized(const TArray<FVector2D>& PlayerRawInPoints, TArray<UQGesture*> SpellTemplates);
+
+	UFUNCTION(BlueprintCallable, Category = "Spell Manager")
 	static bool ArePointsValid(const TArray<FVector2D>& Points);
 
 	static void CheckGesturePoints(const UQGesture* Gesture, const FString& GestureName);
 
+	UFUNCTION(BlueprintCallable, Category = "Spell Manager")
+	static void ClearGestureTemplates(TArray<UQGesture*> GestureTemplates);
+
     USpellManager();
  //   ~USpellManager();
    
-    UFUNCTION(BlueprintCallable, Category = "Spell Manager")
-	FString LoadSpellTemplates(TMap<FString, FUSpellStruct> SpellTemplates);
+
+	// Function to get pre-made templates of spells
+	//const TArray<UQGesture*>& GetTemplates() const { return PremadeTemplates; }
 
 private:
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
+	UFUNCTION(BlueprintCallable, Category = "Spell Manager")
+	static TArray<UQGesture*> LoadSpellTemplates(TMap<FString, FUSpellStruct> SpellTemplates, TArray<UQGesture*> PremadeTemplates);/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
 	USpellManager* SpellManagerInstance;*/
     
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
@@ -46,6 +54,9 @@ private:
 	//TMap<FString, FUSpellStruct> SpellTemplates;
 //
 //    //void LoadSpellData();
+	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spells", meta = (AllowPrivateAccess = "true"))
-	TArray<UQGesture*> GestureTemplates;
+	TArray<UQGesture*> PremadeTemplates;
+	*/
+	
 };

@@ -21,10 +21,10 @@ USpellManager::USpellManager()
     //SpellManagerInstance = SpellManager;
 }
 
-FString USpellManager::LoadSpellTemplates(TMap<FString, FUSpellStruct> SpellTemplates)
+TArray<UQGesture*> USpellManager::LoadSpellTemplates(TMap<FString, FUSpellStruct> SpellTemplates, TArray<UQGesture*> PremadeTemplates)
 {
     // Clear existing templates if any
-    //SpellManagerInstance->GestureTemplates.Empty(); 
+    ClearGestureTemplates(PremadeTemplates);
 
     // Convert each spell struct in the TMap to a UQGesture instance
     for (const TPair<FString, FUSpellStruct>& SpellPair : SpellTemplates)
@@ -54,18 +54,18 @@ FString USpellManager::LoadSpellTemplates(TMap<FString, FUSpellStruct> SpellTemp
         UQGesture* NewGesture = CreateGesture(SpellStruct.GesturePoints, SpellName, false);
         if (NewGesture)
         {
-            GestureTemplates.Add(NewGesture);
+            PremadeTemplates.Add(NewGesture);
             // CheckGesturePoints(NewGesture, SpellName); // Check new gesture points here
         }
     }
 
-    if (GestureTemplates.Num() == 0)
+    if (PremadeTemplates.Num() == 0)
     {
         UE_LOG(LogTemp, Error, TEXT("SpellRecognizer: No valid gestures found in SpellTemplates"));
-        return FString("No Match");
+        return TArray<UQGesture*>();
     }
 
-    return FString("Templates loaded");
+    return PremadeTemplates;
 }
 
 UQGesture* USpellManager::CreateGesture(const TArray<FVector2D>& Vector2DPoints, FString GestureName, bool isPlayerRawInput)
@@ -101,6 +101,57 @@ UQGesture* USpellManager::CreateGesture(const TArray<FVector2D>& Vector2DPoints,
 
     return GestureInstance;
 }
+
+void USpellManager::ClearGestureTemplates(TArray<UQGesture*> GestureTemplates)
+{
+    // Delete each object pointed to by the pointers in the array
+    for (UQGesture* Gesture : GestureTemplates)
+    {
+        if (Gesture)
+        {
+            Gesture->ConditionalBeginDestroy();
+        }
+    }
+
+    // Empty the array
+    GestureTemplates.Empty();
+    UE_LOG(LogTemp, Warning, TEXT("CLEAR?CLEAR!@-@"));
+}
+
+FString USpellManager::SpellRecognizer_Optimized(const TArray<FVector2D>& PlayerRawInPoints, TArray<UQGesture*> SpellTemplates)
+{
+    UE_LOG(LogTemp, Warning, TEXT("SpellRecognizer: Starting spell recognition - Player add '%d'"), PlayerRawInPoints.Num());
+
+    if (PlayerRawInPoints.Num() == 0)
+    {
+        UE_LOG(LogTemp, Error, TEXT("SpellRecognizer: PlayerRawInPoints is empty"));
+        return FString("No Match");
+    }
+
+    if (SpellTemplates.Num() == 0)
+    {
+        UE_LOG(LogTemp, Error, TEXT("SpellRecognizer: No valid gestures found in SpellTemplates"));
+        return FString("No Match");
+    }
+
+    // Create the player's gesture
+    UQGesture* PlayerGesture = CreateGesture(PlayerRawInPoints, TEXT("PlayerGesture"), true);
+    CheckGesturePoints(PlayerGesture, TEXT("PlayerGesture")); // Check new gesture points here
+
+    if (!PlayerGesture)
+    {
+        UE_LOG(LogTemp, Error, TEXT("SpellRecognizer: Failed to create PlayerGesture"));
+        return FString("No Match");
+    }
+
+    // Use your gesture recognizer to find the closest match
+    FString RecognizedSpell = UQPointCloudRecognizer::Classify(PlayerGesture, SpellTemplates);
+
+    UE_LOG(LogTemp, Log, TEXT("SpellRecognizer: Recognized Spell: %s"), *RecognizedSpell);
+
+    return RecognizedSpell;
+}
+
 
 FString USpellManager::SpellRecognizer(const TArray<FVector2D>& PlayerRawInPoints, TMap<FString, FUSpellStruct> SpellTemplates)
 {

@@ -27,9 +27,11 @@ public class MentalHealthGame2024 : ModuleRules
 			});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {
-            // New Modules - Editor Only   
-				"UnrealEd",
+            // New Modules - Editor Only
+			// 
+			/*	"UnrealEd",
 			   "AssetTools"
+			   */
         });
 
 		// Uncomment if you are using Slate UI

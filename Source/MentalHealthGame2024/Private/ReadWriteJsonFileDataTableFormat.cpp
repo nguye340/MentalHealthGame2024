@@ -5,6 +5,8 @@
 #include "ReadWriteFile.h"
 #include "ReadWriteJsonFile.h"
 #include "ImportExportDataTable.h"
+#include "DataTableCsvJsonParser.h"
+
 
 #include "Engine/DataTable.h" // Engine
 

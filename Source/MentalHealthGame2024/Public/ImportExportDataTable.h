@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Engine/DataTable.h"
+#include "DataTableCsvJsonParser.h"
 #include "ImportExportDataTable.generated.h"
 
-class UDataTable;
+
+class UDataTableCsvJsonParser;
 /**
  * 
  */

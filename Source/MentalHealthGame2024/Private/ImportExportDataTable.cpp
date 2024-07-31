@@ -4,6 +4,9 @@
 #include "ImportExportDataTable.h"
 #include "ReadWriteFile.h"
 #include "ReadWriteJsonFile.h"
+#include "DataTableCsvJsonParser.h"
+#include "Engine/DataTable.h"
+
 /*
 #include "ImportBasicAssets.h"
 
@@ -37,7 +40,7 @@ UDataTable* UImportExportDataTable::ImportDataTableFromJsonOrCsv(FString SourceP
 }
 */
 
-void UImportExportDataTable::ExportDataTableToJsonOrCsv(FString FilePath, UDataTable* DataTable, bool& bOutSuccess, FString& OutInfoMessage) 
+void UImportExportDataTable::ExportDataTableToJsonOrCsv(FString FilePath, UDataTable* DataTable, bool& bOutSuccess, FString& OutInfoMessage)
 {
 	// Check if DataTable is valid
 	if (DataTable == nullptr)
@@ -52,11 +55,12 @@ void UImportExportDataTable::ExportDataTableToJsonOrCsv(FString FilePath, UDataT
 
 	if (FilePath.Contains(".csv"))
 	{
-		TableString = DataTable->GetTableAsCSV();
+		TableString = DataTable->GetTableAsCSV();/*UDataTableCsvJsonParser::GetTableAsCSV(DataTable); */
 	}
 	else
 	{
-		TableString = DataTable->GetTableAsJSON();
+
+		TableString = DataTable->GetTableAsJSON();//UDataTableCsvJsonParser::GetTableAsJSON(DataTable);
 	}
 
 	// Write string to file

@@ -101,6 +101,30 @@ FString UDataTableCsvJsonParser::GetTableAsJSON(const UDataTable* DataTable)
                 {
                     Writer->WriteValue(Prop->GetName(), BoolProp->GetPropertyValue(Value));
                 }
+                // For the array of 2D vector points (GesturePoints)
+                if (const FArrayProperty* ArrayProp = CastField<const FArrayProperty>(Prop))
+                {
+                    Writer->WriteArrayStart(Prop->GetName());
+                    FScriptArrayHelper ArrayHelper(ArrayProp, Value);
+                    for (int32 i = 0; i < ArrayHelper.Num(); ++i)
+                    {
+                        const uint8* ArrayValue = ArrayHelper.GetRawPtr(i);
+                        if (const FStructProperty* StructProp = CastField<const FStructProperty>(ArrayProp->Inner))
+                        {
+                            if (StructProp && StructProp->Struct == TBaseStructure<FVector2D>::Get())
+                            {
+                                const FVector2D* Vector = reinterpret_cast<const FVector2D*>(ArrayValue);
+                                if (Vector)
+                                {
+                                    // Format the FVector2D as "(X=...,Y=...)"
+                                    FString VectorString = FString::Printf(TEXT("(X=%f,Y=%f)"), Vector->X, Vector->Y);
+                                    Writer->WriteValue(VectorString);
+                                }
+                            }
+                        }
+                    }
+                    Writer->WriteArrayEnd();
+                }
                 else
                 {
                     UE_LOG(LogTemp, Warning, TEXT("Unhandled property type for property %s"), *Prop->GetName());

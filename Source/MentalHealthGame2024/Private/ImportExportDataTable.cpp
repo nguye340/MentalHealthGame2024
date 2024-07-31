@@ -55,12 +55,12 @@ void UImportExportDataTable::ExportDataTableToJsonOrCsv(FString FilePath, UDataT
 
 	if (FilePath.Contains(".csv"))
 	{
-		TableString = DataTable->GetTableAsCSV();/*UDataTableCsvJsonParser::GetTableAsCSV(DataTable); */
+		TableString = UDataTableCsvJsonParser::GetTableAsCSV(DataTable);/*DataTable->GetTableAsCSV(); */
 	}
 	else
 	{
 
-		TableString = DataTable->GetTableAsJSON();//UDataTableCsvJsonParser::GetTableAsJSON(DataTable);
+		TableString = UDataTableCsvJsonParser::GetTableAsJSON(DataTable);//DataTable->GetTableAsJSON();
 	}
 
 	// Write string to file

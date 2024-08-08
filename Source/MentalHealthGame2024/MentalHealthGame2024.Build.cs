@@ -19,7 +19,8 @@ public class MentalHealthGame2024 : ModuleRules
 
 				// New Modules
 				"Json", // Add the Json module
-                "JsonUtilities", // Add the JsonUtilities module
+                "JsonUtilities",// Add the JsonUtilities module
+				"UMG"
 				/*
 				"AssetTools",
 				"UnrealEd"
@@ -27,7 +28,8 @@ public class MentalHealthGame2024 : ModuleRules
 			});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {
-            // New Modules - Editor Only
+
+			// New Modules - Editor Only
 			// 
 			/*	"UnrealEd",
 			   "AssetTools"

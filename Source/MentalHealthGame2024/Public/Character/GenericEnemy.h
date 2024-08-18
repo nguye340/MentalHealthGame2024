@@ -9,9 +9,21 @@
 /**
  * 
  */
-UCLASS()
+class UAbilitySystemComponent;
+
+UCLASS(Abstract)
 class MENTALHEALTHGAME2024_API AGenericEnemy : public AGenericCharacterBase
 {
 	GENERATED_BODY()
+
+public:
+	AGenericEnemy();
 	
+
+	/** Enemy Interface Below */
+	/** End Enemy Interface */
+
+protected:
+	virtual void BeginPlay() override;
+
 };

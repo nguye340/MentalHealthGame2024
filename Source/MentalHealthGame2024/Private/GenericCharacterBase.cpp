@@ -22,4 +22,9 @@ void AGenericCharacterBase::BeginPlay()
 	
 }
 
+UAbilitySystemComponent* AGenericCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 

@@ -20,7 +20,8 @@ public class MentalHealthGame2024 : ModuleRules
 				// New Modules
 				"Json", // Add the Json module
                 "JsonUtilities",// Add the JsonUtilities module
-				"UMG"
+				"UMG",
+				"GameplayAbilities"
 				/*
 				"AssetTools",
 				"UnrealEd"
@@ -29,7 +30,6 @@ public class MentalHealthGame2024 : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {
 
-			"GameplayAbilities", 
 			"GameplayTags",
 			"GameplayTasks"
 			// New Modules - Editor Only

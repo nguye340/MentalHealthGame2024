@@ -37,5 +37,5 @@ protected:
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 	// Inherited via IAbilitySystemInterface
-	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	//UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 };

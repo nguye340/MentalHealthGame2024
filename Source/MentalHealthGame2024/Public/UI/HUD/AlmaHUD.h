@@ -6,9 +6,14 @@
 #include "GameFramework/HUD.h"
 #include "AlmaHUD.generated.h"
 
+//class APlayerController;
+//class APlayerState;
+class UAbilitySystemComponent;
+class UAttributeSet;
+
 class UOverlayWidgetController;
 class UAlmaUserWidget;
-class FWidgetControllerParams;
+struct FWidgetControllerParams;
 /**
  * 
  */
@@ -22,8 +27,10 @@ public:
 
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
 
+	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
+
 protected:
-	virtual void BeginPlay() override;
+	//virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -32,6 +39,6 @@ private:
 	UPROPERTY()
 	TObjectPtr<UOverlayWidgetController> OverlayWidgetController;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
 };

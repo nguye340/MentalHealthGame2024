@@ -16,7 +16,7 @@ public class MentalHealthGame2024 : ModuleRules
 				"CoreUObject", 
 				"Engine", 
 				"InputCore",
-
+				"EnhancedInput",
 				// New Modules
 				"Json", // Add the Json module
                 "JsonUtilities",// Add the JsonUtilities module

@@ -10,6 +10,7 @@ UAlmaAttributeSet::UAlmaAttributeSet()
 	InitMaxHealth(100.f);
 	InitMana(50.f);
 	InitMaxMana(50.f);
+
 }
 
 void UAlmaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

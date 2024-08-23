@@ -5,6 +5,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 #include "Player/AlmaPlayerState.h"
+#include <UI/HUD/AlmaHUD.h>
+#include <Player/AlmaPlayerController.h>
 
 AAlmaCharacter::AAlmaCharacter()
 {
@@ -40,4 +42,15 @@ void AAlmaCharacter::InitAbilityActorInfo()
 	AlmaPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AlmaPlayerState, this);
 	AbilitySystemComponent = AlmaPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AlmaPlayerState->GetAtrributeSet();
+
+	if (AAlmaPlayerController* AlmaPlayerController = Cast<AAlmaPlayerController>(GetController()))
+	{
+		if (AAlmaHUD* AlmaHUD = Cast<AAlmaHUD>(AlmaPlayerController->GetHUD()))
+		{
+			AlmaHUD->InitOverlay(AlmaPlayerState->GetPlayerController(), AlmaPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
+
+
+		
 }

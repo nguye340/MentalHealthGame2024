@@ -10,3 +10,7 @@ void UAlmaWidgetController::SetWidgetControllerParams(const FWidgetControllerPar
 	AbilitySystemComponent = WCParams.AbilitySystemComponent;
 	AttributeSet = WCParams.AttributeSet;
 }
+
+void UAlmaWidgetController::BroadcastInitialValues()
+{
+}

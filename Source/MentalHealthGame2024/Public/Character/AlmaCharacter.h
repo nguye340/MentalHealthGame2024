@@ -8,6 +8,7 @@
 
 #include "AlmaCharacter.generated.h"
 
+class AAlmaHUD;
 /**
  * 
  */
@@ -23,4 +24,8 @@ public:
 
 private:
 	void InitAbilityActorInfo();
+
 };
+
+
+	

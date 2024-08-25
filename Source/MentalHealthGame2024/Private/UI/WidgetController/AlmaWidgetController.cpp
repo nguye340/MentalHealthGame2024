@@ -14,3 +14,7 @@ void UAlmaWidgetController::SetWidgetControllerParams(const FWidgetControllerPar
 void UAlmaWidgetController::BroadcastInitialValues()
 {
 }
+
+void UAlmaWidgetController::BindCallBacksToDependencies()
+{
+}

@@ -20,12 +20,14 @@ void UOverlayWidgetController::BindCallBacksToDependencies()
 {
 	const UAlmaAttributeSet* AlmaAttributeSet = CastChecked<UAlmaAttributeSet>(AttributeSet);
 	
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		AlmaAttributeSet->GetHealthAttribute()).AddUObject(this, &UOverlayWidgetController::HealthChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AlmaAttributeSet->GetHealthAttribute()).AddUObject(this, &UOverlayWidgetController::HealthChanged);
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		AlmaAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &UOverlayWidgetController::MaxHealthChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AlmaAttributeSet->GetMaxHealthAttribute()).AddUObject(this, &UOverlayWidgetController::MaxHealthChanged);
 
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AlmaAttributeSet->GetManaAttribute()).AddUObject(this, &UOverlayWidgetController::ManaChanged);
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AlmaAttributeSet->GetMaxManaAttribute()).AddUObject(this, &UOverlayWidgetController::MaxManaChanged);
+	
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const

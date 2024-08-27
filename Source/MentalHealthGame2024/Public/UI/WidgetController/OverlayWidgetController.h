@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UI/WidgetController/AlmaWidgetController.h"
+
 #include "OverlayWidgetController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
@@ -14,6 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature, float, N
 /**
  * 
  */
+struct FOnAttributeChangeData;
 UCLASS(BlueprintType, Blueprintable)
 class MENTALHEALTHGAME2024_API UOverlayWidgetController : public UAlmaWidgetController
 {

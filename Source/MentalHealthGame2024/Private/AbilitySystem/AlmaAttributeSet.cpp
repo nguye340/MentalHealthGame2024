@@ -6,7 +6,7 @@
 
 UAlmaAttributeSet::UAlmaAttributeSet()
 {
-	InitHealth(50.f);
+	InitHealth(20.f);
 	InitMaxHealth(100.f);
 	InitMana(50.f);
 	InitMaxMana(100.f);

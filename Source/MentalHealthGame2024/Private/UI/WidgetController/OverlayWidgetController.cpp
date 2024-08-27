@@ -27,7 +27,7 @@ void UOverlayWidgetController::BindCallBacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AlmaAttributeSet->GetManaAttribute()).AddUObject(this, &UOverlayWidgetController::ManaChanged);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AlmaAttributeSet->GetMaxManaAttribute()).AddUObject(this, &UOverlayWidgetController::MaxManaChanged);
-	
+
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const

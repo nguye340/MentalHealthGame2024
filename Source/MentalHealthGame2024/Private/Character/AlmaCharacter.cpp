@@ -51,6 +51,4 @@ void AAlmaCharacter::InitAbilityActorInfo()
 		}
 	}
 
-
-		
 }

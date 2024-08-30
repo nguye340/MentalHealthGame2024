@@ -45,10 +45,17 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
-	UFUNCTION(BlueprintCallable)
-	void ApplyMultipleEffectsToTarget(AActor* TargetActor, TMap<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> EffectClassesAndPoliciesMap, TMap<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> EffectClassesAndPoliciesRemove
-	);
 	
+	UFUNCTION(BlueprintCallable)
+	void ApplyMultipleEffectsToTarget(
+		AActor* TargetActor, 
+		TMap<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> EffectClassesAndPoliciesApplication);
+	
+	UFUNCTION(BlueprintCallable)
+	void RemoveMultipleEffectsToTarget(
+		AActor* TargetActor,
+		TMap<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> EffectClassesAndPoliciesRemoval);
+
 	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* TargetActor);
 
@@ -82,10 +89,10 @@ protected:
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
-	TMap<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> InfiniteEffectClassesAndPoliciesApplication;
+	TMap<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> ApplyInfiniteEffectClassesAndPolicies;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
-	TMap<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> InfiniteEffectClassesAndPoliciesRemove;
+	TMap<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> RemoveInfiniteEffectClassesAndPolicies;
 
 /*private:
 	

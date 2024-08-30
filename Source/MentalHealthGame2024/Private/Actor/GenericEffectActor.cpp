@@ -77,30 +77,41 @@ void AGenericEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<U
 }
 
 void AGenericEffectActor::ApplyMultipleEffectsToTarget(
-	AActor* TargetActor, TMap<TSubclassOf<UGameplayEffect>,
-	EEffectApplicationPolicy> EffectClassesAndPoliciesApplication,
-	TMap<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> EffectClassesAndPoliciesRemove
-	)
-{/*
+	AActor* TargetActor, 
+	TMap<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> EffectClassesAndPoliciesApplication)
+{
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetASC == nullptr) return;
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 
-	for (TTuple<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> InfiniteEffectClassAndPolicy : InfiniteEffectClassesAndPoliciesMap)
+	for (TTuple<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> EffectClassAndPolicyApplication : EffectClassesAndPoliciesApplication)
 	{
-		check(InfiniteEffectClassAndPolicy.Key);
-		const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(InfiniteEffectClassAndPolicy.Key, 1.f, EffectContextHandle);
+		check(EffectClassAndPolicyApplication.Key);
+		const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(EffectClassAndPolicyApplication.Key, 1.f, EffectContextHandle);
+		FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+	}
+}
+
+void AGenericEffectActor::RemoveMultipleEffectsToTarget(AActor* TargetActor, TMap<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> EffectClassesAndPoliciesRemoval)
+{
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	if (TargetASC == nullptr) return;
+	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(this);
+
+	for (TTuple<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> EffectClassAndPolicyRemoval : EffectClassesAndPoliciesRemoval)
+	{
+		check(EffectClassAndPolicyRemoval.Key);
+		const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(EffectClassAndPolicyRemoval.Key, 1.f, EffectContextHandle);
 		FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 		const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
-		if (bIsInfinite && InfiniteEffectClassAndPolicy.Value == EEffectRemovalPolicy::RemoveOnEndOverlap)
+		if (bIsInfinite && EffectClassAndPolicyRemoval.Value == EEffectRemovalPolicy::RemoveOnEndOverlap)
 		{
 			ActiveEffectHandles.Add(ActiveEffectHandle, TargetASC);
 		}
-		const bool bIsInfinite = false;
-
-	}*/
+	}
 }
 
 void AGenericEffectActor::OnOverlap(AActor* TargetActor)
@@ -119,6 +130,15 @@ void AGenericEffectActor::OnOverlap(AActor* TargetActor)
 	{
 		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
 	}
+
+	for (TTuple<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> EffectClassAndPolicyApplication : ApplyInfiniteEffectClassesAndPolicies)
+	{
+		if (EffectClassAndPolicyApplication.Value == EEffectApplicationPolicy::ApplyOnOverlap)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClassAndPolicyApplication.Key);
+		}
+
+	}
 }
 
 void AGenericEffectActor::OnEndOverlap(AActor* TargetActor)
@@ -135,6 +155,14 @@ void AGenericEffectActor::OnEndOverlap(AActor* TargetActor)
 	{
 		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
 	}
+	for (TTuple<TSubclassOf<UGameplayEffect>, EEffectApplicationPolicy> EffectClassAndPolicyApplication : ApplyInfiniteEffectClassesAndPolicies)
+	{
+		if (EffectClassAndPolicyApplication.Value == EEffectApplicationPolicy::ApplyOnEndOverlap)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClassAndPolicyApplication.Key);
+		}
+	}
+	/* Below is for single infinite effect removal policy - more than one Infinite effect use TMap with RemoveInfiniteEffectClassesAndPolicies */
 	if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
 	{
 		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
@@ -153,8 +181,31 @@ void AGenericEffectActor::OnEndOverlap(AActor* TargetActor)
 		{
 			ActiveEffectHandles.FindAndRemoveChecked(Handle);
 		}
+	}
+	
+	for (TTuple<TSubclassOf<UGameplayEffect>, EEffectRemovalPolicy> EffectClassAndPolicyRemoval : RemoveInfiniteEffectClassesAndPolicies)
+	{
+		if (EffectClassAndPolicyRemoval.Value == EEffectRemovalPolicy::RemoveOnEndOverlap)
+		{
+			UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+			if (!IsValid(TargetActor)) return;
+
+			TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+			for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveEffectHandles)
+			{
+				if (TargetASC == HandlePair.Value)
+				{
+					TargetASC->RemoveActiveGameplayEffect(HandlePair.Key, 1);// 1 to remove 1 stack at a time, default -1 remove all stack upon exist 1 source
+					HandlesToRemove.Add(HandlePair.Key);
+				}
+			}
+			for (FActiveGameplayEffectHandle& Handle : HandlesToRemove)
+			{
+				ActiveEffectHandles.FindAndRemoveChecked(Handle);
+			}
+
+		}
 
 	}
-
 }
 

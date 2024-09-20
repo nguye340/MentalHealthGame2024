@@ -22,6 +22,10 @@ void AGenericCharacterBase::BeginPlay()
 	
 }
 
+void AGenericCharacterBase::InitAbilityActorInfo()
+{
+}
+
 UAbilitySystemComponent* AGenericCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;

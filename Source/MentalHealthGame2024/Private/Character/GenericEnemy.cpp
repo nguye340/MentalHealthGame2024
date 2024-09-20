@@ -19,7 +19,12 @@ AGenericEnemy::AGenericEnemy()
 void AGenericEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	InitAbilityActorInfo();
+}
+
+void AGenericEnemy::InitAbilityActorInfo()
+{
 	// check(AbilitySystemComponent); // Check if null
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-
+	Cast<UHanAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }

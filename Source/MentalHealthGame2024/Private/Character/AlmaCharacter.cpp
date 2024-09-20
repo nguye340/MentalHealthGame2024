@@ -8,6 +8,8 @@
 #include <UI/HUD/AlmaHUD.h>
 #include <Player/AlmaPlayerController.h>
 
+#include "AbilitySystem/HanAbilitySystemComponent.h"
+
 AAlmaCharacter::AAlmaCharacter()
 {
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -40,6 +42,7 @@ void AAlmaCharacter::InitAbilityActorInfo()
 	AAlmaPlayerState* AlmaPlayerState = GetPlayerState<AAlmaPlayerState>();
 	check(AlmaPlayerState);
 	AlmaPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AlmaPlayerState, this);
+	Cast<UHanAbilitySystemComponent>(AlmaPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = AlmaPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AlmaPlayerState->GetAtrributeSet();
 

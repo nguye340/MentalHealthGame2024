@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemComponent.h"
+#include "Interaction/CombatInterface.h"
 #include "AbilitySystemInterface.h"
 
 #include "GenericCharacterBase.generated.h"
@@ -15,7 +16,7 @@ class UGameplayEffect;
 class UGameplayAbility;
 
 UCLASS(Abstract)
-class MENTALHEALTHGAME2024_API AGenericCharacterBase : public ACharacter, public IAbilitySystemInterface
+class MENTALHEALTHGAME2024_API AGenericCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -33,6 +34,11 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName WeaponTipSocketName;
+
+	virtual FVector GetCombatSocketLocation() override;
+	
 	UPROPERTY() 
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -51,8 +57,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
-	/*void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
-	void InitializeDefaultAttributes() const;*/
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
+	void InitializeDefaultAttributes() const;
 	
 	void AddCharacterAbilities();
 private:

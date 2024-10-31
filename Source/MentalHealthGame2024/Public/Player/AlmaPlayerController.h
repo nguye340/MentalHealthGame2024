@@ -4,10 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "AlmaPlayerController.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
+struct FInputActionValue;
+class IEnemyInterface;
+class UAlmaInputConfig;
+class UHanAbilitySystemComponent;
+
 /**
  * 
  */
@@ -30,4 +36,15 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const struct FInputActionValue& InputActionValue);
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UAlmaInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UHanAbilitySystemComponent> HanAbilitySystemComponent;
+	UHanAbilitySystemComponent* GetASC();
 };

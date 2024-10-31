@@ -29,11 +29,17 @@ void AGenericCharacterBase::BeginPlay()
 	
 }
 
+FVector AGenericCharacterBase::GetCombatSocketLocation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void AGenericCharacterBase::InitAbilityActorInfo()
 {
 }
 
-/*void AGenericCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
+void AGenericCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));
 	check(GameplayEffectClass);
@@ -48,7 +54,7 @@ void AGenericCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
-}*/
+}
 
 void AGenericCharacterBase::AddCharacterAbilities()
 {

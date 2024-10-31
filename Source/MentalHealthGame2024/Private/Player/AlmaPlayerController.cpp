@@ -3,6 +3,9 @@
 
 #include "Player/AlmaPlayerController.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/HanAbilitySystemComponent.h"
+#include "Input/AlmaInputComponent.h"
 #include "EnhancedInputComponent.h"
 
 
@@ -42,9 +45,14 @@ void AAlmaPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
+	/*
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
 
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAlmaPlayerController::Move);
+	*/
+	UAlmaInputComponent* AlmaInputComponent = CastChecked<UAlmaInputComponent>(InputComponent);
+	AlmaInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAlmaPlayerController::Move);
+	AlmaInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void AAlmaPlayerController::Move(const FInputActionValue& InputActionValue)
@@ -62,4 +70,30 @@ void AAlmaPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 
 	}
+}
+
+void AAlmaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+}
+void AAlmaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	//GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+	if (GetASC() == nullptr) return;
+	GetASC()->AbilityInputTagReleased(InputTag);
+}
+void AAlmaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	//GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
+	if (GetASC() == nullptr) return;
+	GetASC()->AbilityInputTagHeld(InputTag);
+}
+
+UHanAbilitySystemComponent* AAlmaPlayerController::GetASC()
+{
+	if (HanAbilitySystemComponent == nullptr)
+	{
+		HanAbilitySystemComponent = Cast<UHanAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+	return HanAbilitySystemComponent;
 }

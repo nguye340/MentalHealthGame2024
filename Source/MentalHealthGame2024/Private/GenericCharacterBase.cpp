@@ -38,7 +38,7 @@ FVector AGenericCharacterBase::GetCombatSocketLocation()
 void AGenericCharacterBase::InitAbilityActorInfo()
 {
 }
-
+/*
 void AGenericCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));
@@ -55,12 +55,12 @@ void AGenericCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }
-
+*/
 void AGenericCharacterBase::AddCharacterAbilities()
 {
-	UHanAbilitySystemComponent* AuraASC = CastChecked<UHanAbilitySystemComponent>(AbilitySystemComponent);
+	UHanAbilitySystemComponent* AlmaASC = CastChecked<UHanAbilitySystemComponent>(AbilitySystemComponent);
 	if (!HasAuthority()) return;
-	AuraASC->AddCharacterAbilities(StartupAbilities);
+	AlmaASC->AddCharacterAbilities(StartupAbilities);
 }
 
 

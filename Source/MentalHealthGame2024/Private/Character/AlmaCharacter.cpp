@@ -27,7 +27,7 @@ void AAlmaCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
-
+	AddCharacterAbilities();
 }
 
 void AAlmaCharacter::OnRep_PlayerState()
@@ -36,6 +36,13 @@ void AAlmaCharacter::OnRep_PlayerState()
 	// Init ability actor info for the Client
 	InitAbilityActorInfo();
 }
+
+/*int32 AAlmaCharacter::GetPlayerLevel()
+{
+	const AAlmaPlayerState* AuraPlayerState = GetPlayerState<AAlmaPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
+}*/
 
 void AAlmaCharacter::InitAbilityActorInfo()
 {
@@ -53,5 +60,7 @@ void AAlmaCharacter::InitAbilityActorInfo()
 			AlmaHUD->InitOverlay(AlmaPlayerState->GetPlayerController(), AlmaPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+	//InitializeDefaultAttributes();
+
 
 }

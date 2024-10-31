@@ -11,6 +11,8 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UGameplayEffect;
+class UGameplayAbility;
 
 UCLASS(Abstract)
 class MENTALHEALTHGAME2024_API AGenericCharacterBase : public ACharacter, public IAbilitySystemInterface
@@ -39,4 +41,21 @@ protected:
 
 	// Inherited via IAbilitySystemInterface
 	//UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
+	/*void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
+	void InitializeDefaultAttributes() const;*/
+	
+	void AddCharacterAbilities();
+private:
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };

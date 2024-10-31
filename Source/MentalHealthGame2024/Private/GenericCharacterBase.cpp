@@ -2,6 +2,8 @@
 
 
 #include "GenericCharacterBase.h"
+#include "AbilitySystemComponent.h"
+#include "AbilitySystem/HanAbilitySystemComponent.h"
 
 // Sets default values
 AGenericCharacterBase::AGenericCharacterBase()
@@ -15,6 +17,11 @@ AGenericCharacterBase::AGenericCharacterBase()
 
 }
 
+UAbilitySystemComponent* AGenericCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 // Called when the game starts or when spawned
 void AGenericCharacterBase::BeginPlay()
 {
@@ -26,9 +33,28 @@ void AGenericCharacterBase::InitAbilityActorInfo()
 {
 }
 
-UAbilitySystemComponent* AGenericCharacterBase::GetAbilitySystemComponent() const
+/*void AGenericCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
-	return AbilitySystemComponent;
+	check(IsValid(GetAbilitySystemComponent()));
+	check(GameplayEffectClass);
+	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	ContextHandle.AddSourceObject(this);
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+}
+
+void AGenericCharacterBase::InitializeDefaultAttributes() const
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
+}*/
+
+void AGenericCharacterBase::AddCharacterAbilities()
+{
+	UHanAbilitySystemComponent* AuraASC = CastChecked<UHanAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+	AuraASC->AddCharacterAbilities(StartupAbilities);
 }
 
 

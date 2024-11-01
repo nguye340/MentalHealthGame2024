@@ -16,7 +16,7 @@ class UGameplayEffect;
 class UGameplayAbility;
 
 UCLASS(Abstract)
-class MENTALHEALTHGAME2024_API AGenericCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
+class MENTALHEALTHGAME2024_API AGenericCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -37,16 +37,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation() override;
+	//virtual FVector GetCombatSocketLocation() override;
 	
 	UPROPERTY() 
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
-
-	// Inherited via IAbilitySystemInterface
-	//UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;

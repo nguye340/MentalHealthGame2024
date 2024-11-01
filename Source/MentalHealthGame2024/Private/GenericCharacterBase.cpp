@@ -29,12 +29,12 @@ void AGenericCharacterBase::BeginPlay()
 	
 }
 
-FVector AGenericCharacterBase::GetCombatSocketLocation()
+/*FVector AGenericCharacterBase::GetCombatSocketLocation()
 {
 	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
-
+*/
 void AGenericCharacterBase::InitAbilityActorInfo()
 {
 }

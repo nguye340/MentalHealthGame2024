@@ -31,7 +31,10 @@ public class MentalHealthGame2024 : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new string[] {
 
 			"GameplayTags",
-			"GameplayTasks"
+			"GameplayTasks", 
+			"Niagara",
+			"NavigationSystem",
+			"AIModule"
 			// New Modules - Editor Only
 			// 
 			/*	"UnrealEd",

@@ -65,7 +65,7 @@ Each biome reflects a stage of mental recovery and emotional growth.
 
 ## 5. Design Philosophy
 
-> “We don’t just build worlds — we forge fables.”
+> “We don’t just build worlds, we forge fables.”
 
 Every mechanic in **Heart O’ Nightmare** reflects a psychological process:
 - Combat mirrors the struggle to control inner fears.  

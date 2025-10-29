@@ -81,7 +81,7 @@ The player’s progress is both mechanical and emotional—each encounter reshap
 | Role | Name | Contribution |
 |------|------|---------------|
 | Game Director / Programmer / Web Developer | Han | Core systems, spell recognition AI, dialogue system, fabesmiths studio website |
-| Game Developer | Shubhodeep | Core systems, spell recognition AI, dialogue system, fabesmiths studio website |
+| Game Developer | Shubhodeep | Enemy AI and Boss Fight Mechanism |
 | 3D Artist & Animator | Valerie | Character and prop design, animation |
 | UI / 2D Artist | Nicole | Interface design, spellbook art |
 | Narrative Designer | Emily | Story, dialogue structure, and pacing |
